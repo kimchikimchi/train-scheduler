@@ -48,8 +48,14 @@ function getNextArrival(object) {
     }
 
     console.log(`Next Arrival Time in Epoch is ${nextArrival}`);
-    //return nextArrival;
-    return moment(nextArrival, 'x').format("h:mm A")
+    return nextArrival;
+    //return moment(nextArrival, 'x').format("h:mm A")
+}
+
+function getMinsAway(nextTime) {
+    var minsAway = moment().to(moment(nextTime, 'x'), true);
+
+    return minsAway;
 }
 
 database.ref("trainSchedule").orderByChild("firstTrainTime").on("child_added", function(childSnapshot) {
@@ -59,15 +65,15 @@ database.ref("trainSchedule").orderByChild("firstTrainTime").on("child_added", f
     console.log("=================================");
     console.log(trainSchedule);
 
+    var nextArrival = getNextArrival(trainSchedule);
 
     var row = $("<tr>").append(
        $("<td>").text(trainSchedule.trainName),
        $("<td>").text(trainSchedule.destination),
        $("<td>").text(trainSchedule.frequency),
-       $("<td>").text(getNextArrival(trainSchedule)),
-       $("<td>").text("TBD")
+       $("<td>").text( moment(nextArrival, 'x').format("h:mm A") ),
+       $("<td>").text(getMinsAway(nextArrival))
     );
-
 
     $("#trainSchedules").append(row);
   // Handle the errors
