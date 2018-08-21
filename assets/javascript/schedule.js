@@ -19,13 +19,15 @@ $("#addSchedule").on("click", function(event) {
     var destination = $("#inputDestination").val().trim();
     // Converting to epoch to ease calculation later on
     var firstTrainTime = moment( $("#inputFirstTrainTime").val().trim(), 'HH:mm' ).format("x");
+        firstTrainTime = parseInt(firstTrainTime);
     var frequency = $("#inputFrequency").val().trim();
+        frequency = parseInt(frequency);
 
     var trainSchedule = {
         trainName : trainName,
         destination: destination,
-        firstTrainTime: firstTrainTime,
-        frequency: frequency,
+        firstTrainTime: firstTrainTime,  // Stored in epoch
+        frequency: frequency,            // Stored in mins
         dateAdded: firebase.database.ServerValue.TIMESTAMP
     };
 
@@ -35,20 +37,37 @@ $("#addSchedule").on("click", function(event) {
 });
 
 
-database.ref("trainSchedule").on("child_added", function(childSnapshot) {
+function getNextArrival(object) {
+    var now = parseInt(moment().format("x"));
+    var nextArrival = parseInt(object.firstTrainTime);
+
+    while (now > nextArrival) {
+        // Increment by how often the train runs.
+        // Note nextArrival is in Epoch and frequency in mins.
+        nextArrival += (object.frequency * 60 * 1000);
+    }
+
+    console.log(`Next Arrival Time in Epoch is ${nextArrival}`);
+    //return nextArrival;
+    return moment(nextArrival, 'x').format("h:mm A")
+}
+
+database.ref("trainSchedule").orderByChild("firstTrainTime").on("child_added", function(childSnapshot) {
     var trainSchedule = childSnapshot.val();
 
     // Log everything that's coming out of snapshot
     console.log("=================================");
     console.log(trainSchedule);
 
+
     var row = $("<tr>").append(
        $("<td>").text(trainSchedule.trainName),
        $("<td>").text(trainSchedule.destination),
        $("<td>").text(trainSchedule.frequency),
-       $("<td>").text("TBD"),
+       $("<td>").text(getNextArrival(trainSchedule)),
        $("<td>").text("TBD")
     );
+
 
     $("#trainSchedules").append(row);
   // Handle the errors
