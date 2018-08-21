@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <!-- Required Meta Tags -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="utf-8">
+        <!-- CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <title>Train Scheduler</title>
+    </head>
+    <body>
+        <div class="container">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                      <th scope="col">Train Name</th>
+                      <th scope="col">Destination</th>
+                      <th scope="col">Frequency (min)</th>
+                      <th scope="col">Next Arrival</th>
+                      <th scope="col">Minutes Away</th>
+                    </tr>
+                </thead>
+                <tbody id="trainSchedules">
+                    <!--
+                    <tr>
+                      <th scope="row">1</th>
+                      <td>Mark</td>
+                      <td>Otto</td>
+                      <td>@mdo</td>
+                    </tr>
+                    -->
+                </tbody>
+            </table>
+
+            <!-- Add a New Train Schedule -->
+            <form>
+                <div class="form-group">
+                    <label for="inputTrainName">Train Name</label>
+                    <input type="text" class="form-control" id="inputTrainName" aria-describedby="trainNameHelp" placeholder="Enter Train name">
+                </div>
+
+                <div class="form-group">
+                    <label for="inputDestination">Destination</label>
+                    <input type="text" class="form-control" id="inputDestination" aria-describedby="destinationHelp" placeholder="Enter Destination">
+                </div>
+
+                <div class="form-group">
+                    <label for="inputFirstTrainTime">First Train Time (HH:mm - military Time)</label>
+                    <input type="text" class="form-control" id="inputFirstTrainTime" aria-describedby="firstTrainTimeHelp" placeholder="HH:mm">
+                </div>
+                <div class="form-group">
+                    <label for="inputFrequency">Frequency (min)</label>
+                    <input type="text" class="form-control" id="inputFrequency" placeholder="in mins">
+                </div>
+                <button type="submit" class="btn btn-primary" id="addSchedule">Submit</button>
+            </form>
+
+        </div>
+
+        <!-- Importing Various JS Libs -->
+        <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+         <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+        <script type="text/javascript" src="assets/javascript/schedule.js">
+        </script>
+    </body>
+</html>
