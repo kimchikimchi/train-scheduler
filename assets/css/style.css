@@ -1,0 +1,9 @@
+form {
+    width: 400px;
+    margin-top: 80px;
+    //border: 1px;
+}
+
+.form-group {
+    margin-top: 10px;
+}
